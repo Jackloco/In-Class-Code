@@ -20,14 +20,32 @@
 ;these are equivalent
 ;8
 
-((λ(x y) (+ x y) 3 9))
+((λ(x y) (+ x y)) 3 9)
 ;12
 
 ((λ(x y) 4) 3 6)
 ;4
 
-(λ (n)
-  (if (= n 0) 1 (λ (sub1 n) (if (= (sub1 n) 0)))))
+;;(λ (n)
+;;  (if (= n 0) 1 (λ (sub1 n) (if (= (sub1 n) 0)))))
 
-(define (short-msgs los)
-  (filter (λ (msg) (< (string-length msg) SHORT-LEN)) los))
+;;(define (short-msgs los)
+;;  (filter (λ (msg) (< (string-length msg) SHORT-LEN)) los))
+
+(check-expect (product-sqrts-plus-one (list 1 4 9)) 24)
+(check-expect (product-sqrts-plus-one (list )) 1)
+
+(define (product-sqrts-plus-one alon)
+  ;(foldr (λ(n1 n2) (* (+ (sqrt n1) 1) n2)) 1 alon))
+  (foldr * 1 (map (λ(n) (add1 (sqrt n))) alon)))
+
+(check-expect (num-perfect-squares (list 1 4 3 5 9)) 3)
+(check-expect (num-perfect-squares (list 7 3 5)) 0)
+(check-expect (num-perfect-squares (list )) 0)
+(define (num-perfect-squares alon)
+  ;(length (filter (λ(n) (integer? (sqrt n))) alon))
+  (foldr (λ(n1 n2)
+           (if (integer? (sqrt n1))
+               (add1 n2)
+               n2))
+         0 alon))

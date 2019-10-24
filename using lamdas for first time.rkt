@@ -49,3 +49,9 @@
                (add1 n2)
                n2))
          0 alon))
+
+
+(define (f x) (+ x 2))
+(define f2 (λ(x) (+ x 2)))
+
+(check-expect (f1 3) (f2 3))

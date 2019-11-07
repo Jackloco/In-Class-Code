@@ -34,3 +34,11 @@
 (check-expect (bst? bst1) true)
 (check-expect (bst? bst1-bad) false)
 (check-expect (bst? "leaf") true)
+(define (bst? abst)
+  (cond [(string? abst) true]
+        [(branch? abst) (and (andmap (λ(k) (< k (branch-key abst)))
+                                     (bst->list (branch-left abst)))
+                             (andmap (λ(k) (> k (branch-key abst)))
+                                     (bst->list (branch-right abst)))
+                        (bst? (branch-left abst))
+                        (bst? (branch-right abst)))]))

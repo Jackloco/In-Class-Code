@@ -57,3 +57,27 @@
   (cond [(empty? dl) 0]
         [(cons? dl) (+ (num-divs (first dl)
                     (counts-in-list (rest dl))))]))
+
+(define TEXT-SIZE 12)
+(define TEXT-COLOR "black")
+(define BULLET (circle 2 "solid" "black"))
+
+;render-div: Div -> Image
+;renders this Div
+
+
+(define (render-div d)
+  (cond [(string? d) (text d TEXT-SIXE TEXT-COLOR)]
+        [(image? d) d]
+        [(ol? d) (render-ol d)]
+        [(ul? d) (render-ul d)]))
+
+;render-ul : UL -> Image
+;render the unordered list of divs
+
+(check-expect (render-ul DIV-3) RENDER-3)
+(define (render-ul ul)
+  (foldr (λ (new old) (above/align "left" new old))
+         empty-image
+         (map (λ(d) (beside BULLET (render-div d))) (ul-content ul))))
+  ;;map is the list and it's putting it inside the new in the lambda
